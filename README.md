@@ -71,3 +71,53 @@ para copiar de manera superficial y de manera profunda, respectivamente, un obje
 
 
 ### Patrón Builder
+Imagina que necesitas construir un objeto complejo paso a paso.
+Imaginemos que necesitamos crear un orquestador, que necesita una gran cantidad de
+parámetros para controlar absolutamente todo lo que necesita (ya de por si, pasar más de 3 parámetros
+no es muy recomendable), que a veces no se necesitan todos. Imaginemos también un 
+constructor con 100 parámetros para una casa. Tenemos que incluir parámetros para un porche,
+pero hay casas que no tienen porche. ¿Tendremos que pasar Null para ese valor?
+
+Este patrón nos da una solución para esto. El patrón Builder nos dice que saquemos
+el código para construir ese objeto (el código dentro del constructor) y lo 
+coloquemos dentro de objetos independientes llamados **constructores**.
+
+El patrón organiza la construcción del objeto con diferentes constructores. Es 
+decir, el constructor "base" llamada a "constructores sencillos". Siguiendo 
+el ejemplo de la casa, el constructor para una casa está "compuesto" por un 
+constructor de paredes, un constructor del porche, etc. Lo bueno de esto es 
+que puedes invocar a los constructores que necesites y no todos. Para ello, 
+simplemente implementamos diferentes constructores de casa con diferentes pasos
+constructores.
+
+Vayamos a otro ejemplo: imaginemos que queremos crear una pizza. Sin el patrón
+Builder, lo que se haría es crear un constructor con todos los parámetros posibles,
+pudiendo ser None indicando que no se incluye ese "ingrediente". Sin embargo,
+imagina un constructor con 20 parámetros. Una muy mala práctica. Para esto, podemos
+utilizar este patrón e ir construyendo la pizza poco a poco. 
+
+En el siguiente ejemplo, podremos crear una pizza con los ingredientes que queramos,
+llamando a los métodos que se necesiten.
+````python
+python creacionales/builder.py
+````
+
+En este otro ejemplo, creamos los distintos builders para cada tipo de pizza
+y cada uno creará una pizza distinta. Todos los builders implementan todos 
+los métodos de la interfaz, pero algunos no hacen nada. Podríamos incluso
+crear una interfaz builder por cada tipo de pizza. Esto es, uno para las vegetarianas, que 
+no se le pueden añadir queso u otros ingredientes, por ejemplo. Y con este
+ejemplo nos obliga a implementar el método set_cheese.
+
+````python
+pyhton creacionales/builder_2.py
+````
+
+### Resumido
+Cuando necesites implementar una clase con un constructor con numerosos
+parámetros, plantéate si se puede construir el objeto paso a paso, y si 
+hay varios posibles objetos resultantes. Si es así, podrás usar este patrón.
+Implementando una interfaz builder, que es la que define pero no implementa cada
+uno de los pasos. Se implementarán tantos builders de esta interfaz como tipos
+resultantes se necesiten y así evitarás tener un constructor con demasiados
+parámetros, que pueden no ser usados.
